@@ -1,0 +1,25 @@
+{
+  "timestamp": "2026-03-14T13:37:01",
+  "dataset": {
+    "total_train_samples": 448,
+    "total_test_samples": 112,
+    "num_students": 4,
+    "students": [
+      "Harshith",
+      "Likith",
+      "Raghu",
+      "Sateesh"
+    ],
+    "feature_dim": 120
+  },
+  "training": {
+    "epochs_run": 9,
+    "test_accuracy": 1.0,
+    "test_loss": 0.04915845766663551
+  },
+  "artifacts": {
+    "model_path": "C:\\Users\\harsh\\OneDrive\\Desktop\\NNDL Project\\voice-attendance-system\\models\\voice_model.h5",
+    "labels_path": "C:\\Users\\harsh\\OneDrive\\Desktop\\NNDL Project\\voice-attendance-system\\models\\labels.json",
+    "scaler_path": "C:\\Users\\harsh\\OneDrive\\Desktop\\NNDL Project\\voice-attendance-system\\models\\scaler.pkl"
+  }
+}
