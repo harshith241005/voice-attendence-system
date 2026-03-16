@@ -12,8 +12,6 @@ from flask_cors import CORS
 from .config import TEST_DATA_DIR
 from .dataset import download_demo_dataset
 from .db import init_db, list_attendance, list_students
-from .evaluate import evaluate_model, plot_training_curves
-from .model import train_model
 from .service import predict_file_and_optionally_mark
 
 
@@ -87,6 +85,8 @@ def post_download_dataset() -> tuple:
 @app.post("/train")
 def post_train() -> tuple:
     try:
+        from .model import train_model
+
         metrics = train_model()
         return jsonify({"metrics": metrics}), 200
     except Exception as exc:
@@ -96,6 +96,8 @@ def post_train() -> tuple:
 @app.post("/evaluate")
 def post_evaluate() -> tuple:
     try:
+        from .evaluate import evaluate_model, plot_training_curves
+
         metrics = evaluate_model()
         plots = plot_training_curves()
         return jsonify({"metrics": metrics, "plots": plots}), 200

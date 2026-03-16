@@ -6,7 +6,6 @@ import os
 
 from .config import DEFAULT_CONFIDENCE_THRESHOLD, DEFAULT_DURATION, DEFAULT_SAMPLE_RATE
 from .db import init_db, mark_attendance
-from .model import load_labels, predict_from_file
 
 
 def predict_and_optionally_mark(
@@ -36,6 +35,8 @@ def predict_file_and_optionally_mark(
     expected_name: str | None = None,
     source: str = "dataset_test",
 ) -> dict:
+    from .model import load_labels, predict_from_file
+
     init_db()
 
     labels = load_labels()
