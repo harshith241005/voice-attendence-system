@@ -6,12 +6,25 @@ import os
 import tempfile
 
 import numpy as np
-import sounddevice as sd
 from scipy.io.wavfile import write
+
+
+def _get_sounddevice_module():
+    """Import sounddevice lazily so non-microphone deployments can start without PortAudio."""
+    try:
+        import sounddevice as sd  # type: ignore
+
+        return sd
+    except Exception as exc:
+        raise RuntimeError(
+            "Microphone recording is unavailable because PortAudio/sounddevice is not available "
+            "in this environment."
+        ) from exc
 
 
 def record_temp_wav(duration: float, sample_rate: int) -> str:
     """Record one clip and return a temp wav path."""
+    sd = _get_sounddevice_module()
     audio = sd.rec(int(duration * sample_rate), samplerate=sample_rate, channels=1)
     sd.wait()
 
@@ -30,6 +43,7 @@ def record_dataset_samples(
     duration: float,
     sample_rate: int,
 ) -> list[str]:
+    sd = _get_sounddevice_module()
     folder = os.path.join(dataset_dir, name)
     os.makedirs(folder, exist_ok=True)
 

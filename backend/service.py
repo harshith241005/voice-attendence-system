@@ -4,7 +4,6 @@ from __future__ import annotations
 
 import os
 
-from .audio import record_temp_wav
 from .config import DEFAULT_CONFIDENCE_THRESHOLD, DEFAULT_DURATION, DEFAULT_SAMPLE_RATE
 from .db import init_db, mark_attendance
 from .model import load_labels, predict_from_file
@@ -16,6 +15,8 @@ def predict_and_optionally_mark(
     threshold: float = DEFAULT_CONFIDENCE_THRESHOLD,
     expected_name: str | None = None,
 ) -> dict:
+    from .audio import record_temp_wav
+
     temp_wav = record_temp_wav(duration=duration, sample_rate=sample_rate)
     try:
         return predict_file_and_optionally_mark(
