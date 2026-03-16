@@ -62,8 +62,18 @@ def _api_post_file(path: str, file_name: str, file_bytes: bytes, form_data: dict
         return {"ok": False, "error": str(exc)}
 
 
+@st.cache_data(ttl=120, show_spinner=False)
+def _cached_health() -> dict:
+    return _api_get("/health")
+
+
+@st.cache_data(ttl=120, show_spinner=False)
+def _cached_students() -> dict:
+    return _api_get("/students")
+
+
 def _student_set() -> list[str]:
-    students_resp = _api_get("/students")
+    students_resp = _cached_students()
     api_students = students_resp["data"].get("students", []) if students_resp["ok"] else []
     if api_students:
         return api_students
@@ -155,7 +165,7 @@ st.markdown(
     unsafe_allow_html=True,
 )
 
-health = _api_get("/health")
+health = _cached_health()
 if not health["ok"]:
     st.error(f"Flask backend unavailable at {API_BASE_URL}: {health['error']}")
     st.stop()
