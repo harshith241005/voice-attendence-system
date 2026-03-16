@@ -21,6 +21,20 @@ app = Flask(__name__)
 CORS(app)
 
 
+@app.get("/")
+def index() -> tuple:
+    return (
+        jsonify(
+            {
+                "service": "voice-attendance-backend",
+                "status": "ok",
+                "health": "/health",
+            }
+        ),
+        200,
+    )
+
+
 @app.get("/health")
 def health() -> tuple:
     try:
