@@ -1,0 +1,24 @@
+services:
+  - type: web
+    name: voice-attendance-backend
+    runtime: python
+    plan: free
+    buildCommand: pip install -r requirements.txt
+    startCommand: gunicorn backend.flask_app:app --bind 0.0.0.0:$PORT --workers 1 --threads 4 --timeout 1800
+    autoDeploy: true
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.11.9
+
+  - type: web
+    name: voice-attendance-frontend
+    runtime: python
+    plan: free
+    buildCommand: pip install -r requirements.txt
+    startCommand: streamlit run frontend/streamlit_app.py --server.address 0.0.0.0 --server.port $PORT --server.headless true
+    autoDeploy: true
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.11.9
+      - key: VOICE_API_URL
+        value: https://voice-attendance-backend.onrender.com

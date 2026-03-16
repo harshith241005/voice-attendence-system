@@ -111,6 +111,50 @@ python -m streamlit run frontend/streamlit_app.py
 
 In the app, use Held-out test dataset mode under Attendance Prediction to run demo predictions and attendance marking from test samples.
 
+## Deploy Frontend and Backend on One Provider (Render)
+
+This repository includes a ready blueprint file at `render.yaml` that creates:
+- `voice-attendance-backend` (Flask API)
+- `voice-attendance-frontend` (Streamlit UI)
+
+### A) Push code to GitHub
+
+1. Create a GitHub repository and push this project.
+2. Keep `render.yaml` in the project root.
+
+### B) Create both services in one Render project
+
+1. Sign in to Render.
+2. Click **New** -> **Blueprint**.
+3. Select your GitHub repository.
+4. Render reads `render.yaml` and creates both services automatically.
+5. Deploy.
+
+### C) Connect frontend to backend URL
+
+After backend deploy completes, copy backend URL:
+- Example: `https://voice-attendance-backend.onrender.com`
+
+Set frontend env var:
+- Key: `VOICE_API_URL`
+- Value: backend URL
+
+Then redeploy the frontend service.
+
+### D) Verify
+
+1. Open backend health endpoint:
+    - `https://<your-backend>/health`
+    - Should return status ok.
+2. Open frontend URL.
+3. Frontend should show backend connected.
+
+### Notes
+
+- Render free plan sleeps on inactivity, so first request can be slow.
+- Attendance DB on free web service is ephemeral. If persistence is required, use Render persistent disk or managed database.
+- If model files are large, first deploy/build can take longer.
+
 ## SQLite Database Details
 
 Database path:
